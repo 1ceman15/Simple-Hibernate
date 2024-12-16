@@ -1,6 +1,6 @@
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @IdClass(ChildPK.class)
@@ -11,8 +11,9 @@ public class Child {
     @Id
     String tabno;
     char sex;
-    Date born;
+    LocalDate born;
     @ManyToOne
+    @JoinColumn(name = "tabno")
     Employer parent;
 
     public Child() {
@@ -42,11 +43,11 @@ public class Child {
         this.sex = sex;
     }
 
-    public Date getBorn() {
+    public LocalDate getBorn() {
         return born;
     }
 
-    public void setBorn(Date born) {
+    public void setBorn(LocalDate born) {
         this.born = born;
     }
 

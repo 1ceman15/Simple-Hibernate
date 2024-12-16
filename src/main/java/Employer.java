@@ -1,7 +1,6 @@
 import jakarta.persistence.*;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity(name = "emp")
@@ -11,16 +10,16 @@ public class Employer {
     String name;
     String post;
     float salary;
-    Date born;
+    LocalDate born;
     String phone;
-    int depno;
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "depno")
     Depart department;
     @OneToMany(mappedBy = "parent")
     List<Child> children;
 
 
-    public Employer(String tabno, String name, String post, float salary, Date born, String phone, int depno) {
+    public Employer(String tabno, String name, String post, float salary, LocalDate born, String phone) {
         this.children = new ArrayList<>();
         this.tabno = tabno;
         this.name = name;
@@ -28,7 +27,6 @@ public class Employer {
         this.salary = salary;
         this.born = born;
         this.phone = phone;
-        this.depno = depno;
     }
 
     public Employer() {
@@ -67,16 +65,12 @@ public class Employer {
         return post;
     }
 
-    public Date getBorn() {
+    public LocalDate getBorn() {
         return born;
     }
 
     public String getPhone() {
         return phone;
-    }
-
-    public int getDepno() {
-        return depno;
     }
 
     public void setTabno(String tabno) {
@@ -95,16 +89,12 @@ public class Employer {
         this.salary = salary;
     }
 
-    public void setBorn(Date born) {
+    public void setBorn(LocalDate born) {
         this.born = born;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public void setDepno(int depno) {
-        this.depno = depno;
     }
 
     @Override
@@ -116,8 +106,7 @@ public class Employer {
                 ", salary=" + salary +
                 ", born=" + born +
                 ", phone='" + phone + '\'' +
-                ", depno=" + depno +
-                ", department=" + department +
+                ", department=" + department.name +
                 ", children=" + children +
                 '}';
     }
