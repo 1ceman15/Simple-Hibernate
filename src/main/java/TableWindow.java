@@ -65,7 +65,13 @@ public class TableWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == employerButton) {
-            new CRUDwindow();
+            new CRUDwindow(new EmployerDAO());
+        }
+        if(e.getSource() == departmentButton) {
+            new CRUDwindow(new DepartDAO());
+        }
+        if(e.getSource() == childButton) {
+            new CRUDwindow(new ChildDAO());
         }
     }
 

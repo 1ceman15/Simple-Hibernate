@@ -9,12 +9,13 @@ public class CRUDwindow extends JFrame implements ActionListener {
     private JButton updateButton;
     private JButton deleteButton;
 
-    EmployerDAO dao;
+    DataBaseDAO dao;
 
-    public CRUDwindow() {
+    public CRUDwindow(DataBaseDAO dao) {
+        this.dao = dao;
         // Заголовок окна
         setTitle("CRUD Operations Window");
-        dao = new EmployerDAO();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Размеры окна
         setSize(400, 250);
@@ -74,9 +75,8 @@ public class CRUDwindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == readButton) {
-            System.out.println(dao.read("110"));
+
         }
     }
-
 
 }
