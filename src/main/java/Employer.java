@@ -97,6 +97,10 @@ public class Employer {
         this.phone = phone;
     }
 
+    public static String getTableName() {
+        return "emp";
+    }
+
     @Override
     public String toString() {
         return "Employer{" +

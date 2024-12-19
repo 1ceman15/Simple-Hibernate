@@ -51,6 +51,10 @@ public class Child {
         this.born = born;
     }
 
+    public static String getTableName() {
+        return "children";
+    }
+
     @Override
     public String toString() {
         return "Child{" +

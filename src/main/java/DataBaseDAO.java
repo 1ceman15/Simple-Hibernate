@@ -2,22 +2,34 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public abstract class DataBaseDAO {
-    protected Configuration con;
-    protected SessionFactory sf;
-    protected Session session;
+import java.util.List;
 
-    public DataBaseDAO() {
-        con = new Configuration().configure();
-        sf = con.buildSessionFactory();
-        session = sf.openSession();
+public abstract class DataBaseDAO<T, ID> {
+    private Class<T> clazz;
+
+    public DataBaseDAO(Class<T> clazz) {
+        this.clazz = clazz;
     }
 
-    public Object read(String Id, Class<?> clazz) {
-        return session.get(clazz, Id);
+    public T getById(Session session,ID id) {
+        return session.get(clazz, id);
     }
 
-    public Object read(ChildPK Id, Class<?> clazz) {
-        return session.get(clazz, Id);
+    public List<T> getAll(Session session) {
+        return  session.createQuery("from " + clazz.getName(), clazz).list();
+    }
+
+    public T create(Session session, T entity) {
+        session.saveOrUpdate(entity);
+        return entity;
+    }
+
+    public T update(Session session, T entity) {
+        session.merge(entity);
+        return entity;
+    }
+
+    public void deletebyId(Session session, T entity) {
+        session.delete(entity);
     }
 }

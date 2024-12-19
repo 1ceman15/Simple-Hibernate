@@ -40,6 +40,9 @@ public class Depart {
         this.name = name;
     }
 
+    public static String getTableName() {
+        return "depart";
+    }
     @Override
     public String toString() {
         return "Depart{" +

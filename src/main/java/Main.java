@@ -2,17 +2,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        Configuration con = new Configuration().configure();
-        SessionFactory sf = con.buildSessionFactory();
-        Session session = sf.openSession();
-
-        Employer emp = (Employer) session.get(Employer.class,  "23");
+        DataBaseDAO dao = new EmployerDAO();
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Employer emp = (Employer) dao.getById(sessionFactory.openSession(), "110");
         System.out.println(emp);
-        Depart dep = (Depart) session.get(Depart.class,  1);
-        System.out.println(dep);
-        Child child = (Child) session.get(Child.class, new ChildPK("Вадим" ,"988"));
+        List<Employer> employers = dao.getAll(sessionFactory.openSession());
+        System.out.println(employers);
+        dao = new ChildDAO();
+        Child child = (Child) dao.getById(sessionFactory.openSession(), new ChildPK("Вадим", "988"));
         System.out.println(child);
     }
 }

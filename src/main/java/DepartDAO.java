@@ -1,9 +1,5 @@
-public class DepartDAO extends DataBaseDAO{
+public class DepartDAO extends DataBaseDAO<Depart, String>{
     public DepartDAO() {
-        super();
-    }
-    @Override
-    public Object read(String departId, Class<?> clazz) {
-        return super.read(departId, Depart.class);
+        super(Depart.class);
     }
 }

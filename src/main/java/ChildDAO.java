@@ -1,9 +1,6 @@
-public class ChildDAO extends DataBaseDAO{
+public class ChildDAO extends DataBaseDAO<Child, ChildPK>{
     public ChildDAO() {
-        super();
+        super(Child.class);
     }
-    @Override
-    public Object read(ChildPK childId, Class<?> clazz) {
-        return session.get(Child.class, childId);
-    }
+
 }

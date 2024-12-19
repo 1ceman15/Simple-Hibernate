@@ -1,9 +1,7 @@
-public class EmployerDAO extends DataBaseDAO {
+public class EmployerDAO extends DataBaseDAO<Employer, String> {
+
     public EmployerDAO() {
-        super();
+        super(Employer.class);
     }
-    @Override
-    public Object read(String employerId, Class<?> clazz) {
-        return super.read(employerId, Employer.class);
-    }
+
 }
