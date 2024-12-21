@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//TODO добавить многопоточность, чтобы потом с взятием даннных ждал заполнения формы
+
 public class CRUDwindow extends JFrame implements ActionListener {
     private JButton insertButton;
     private JButton readButton;
@@ -74,7 +76,23 @@ public class CRUDwindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == readButton) {
-            System.out.println(dao.getById(HibernateUtil.openSession(), "110"));
+            if(dao.getClass() == ChildDAO.class) {
+
+            }else {
+
+            }
+        }
+        if(e.getSource() == insertButton) {
+            if(dao instanceof ChildDAO) {
+                ChildInput window = new ChildInput();
+            } else if (dao instanceof EmployerDAO) {
+                EmployerInput window = new EmployerInput();
+                Employer emp = window.getEmployer();
+                dao.create(HibernateUtil.openSession(), emp);
+            } else if (dao instanceof DepartDAO) {
+                DepartInput window = new DepartInput();
+            }
+
         }
     }
 

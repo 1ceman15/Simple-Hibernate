@@ -27,6 +27,13 @@ public class Child {
         this.parent = parent;
     }
 
+    public Child(String name, String tabno, char sex, LocalDate born) {
+        this.name = name;
+        this.tabno = tabno;
+        this.sex = sex;
+        this.born = born;
+    }
+
     public String getName() {
         return name;
     }

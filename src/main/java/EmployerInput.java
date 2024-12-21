@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class EmployerInput extends JFrame implements ActionListener {
+    private Employer emp;
     private JTextField tabnoField = new JTextField();
     private JTextField nameField = new JTextField();
     private JTextField postField = new JTextField();
@@ -66,9 +68,35 @@ public class EmployerInput extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+
+    private void toEmployer() {
+        // Извлекаем значения из полей формы
+        String tabno = tabnoField.getText();
+        String name = nameField.getText();
+        String post = postField.getText();
+        double salary = Double.parseDouble(salaryField.getText()); // Преобразуем строку в число
+        LocalDate born = LocalDate.parse(bornField.getText()); // Здесь может быть преобразование в LocalDate, если нужно
+        String phone = phoneField.getText();
+        int  departId = Integer.parseInt(departmentField.getText());
+        Depart department = new Depart();
+        department.setId(departId);
+
+        // Создаем объект Employer, передавая значения
+        emp = new Employer(tabno, name, post, salary, born, phone, department);
+
+        // Можно добавить дополнительные действия, например, вывод в консоль или сохранение в базу данных
+    }
+
+    public Employer getEmployer() {
+        return emp;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == submitButton) {
+            toEmployer();
+            this.dispose();
+        }
     }
 
 

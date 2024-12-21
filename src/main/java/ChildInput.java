@@ -1,7 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
-public class ChildInput extends JFrame {
+public class ChildInput extends JFrame implements ActionListener {
+    private Child child;
     private JTextField nameField = new JTextField();
     private JTextField tabnoField = new JTextField();
     private JTextField sexField = new JTextField();
@@ -52,5 +56,32 @@ public class ChildInput extends JFrame {
         setVisible(true);
     }
 
+    private void toChild() {
+        // Извлекаем значения из полей формы
+        String name = nameField.getText();
+        String tabno = tabnoField.getText();
+        char sex = sexField.getText().toUpperCase().charAt(0); // Преобразуем в верхний регистр
+        String bornStr = bornField.getText(); // Получаем строку даты
 
+        // Преобразование строки в LocalDate
+        LocalDate born = null;
+            born = LocalDate.parse(bornStr); // Преобразуем строку в LocalDate
+
+        // Создаем объект Child без родителя
+        this.child = new Child(name, tabno, sex, born);
+
+        // Можно добавить дополнительные действия, например, вывод в консоль или сохранение в базу данных
+    }
+
+    public Child getChild() {
+        return child;
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == submitButton) {
+            toChild();
+        }
+    }
 }

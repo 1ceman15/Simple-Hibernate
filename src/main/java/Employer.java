@@ -9,7 +9,7 @@ public class Employer {
     String tabno;
     String name;
     String post;
-    float salary;
+    double salary;
     LocalDate born;
     String phone;
     @ManyToOne()
@@ -19,7 +19,7 @@ public class Employer {
     List<Child> children;
 
 
-    public Employer(String tabno, String name, String post, float salary, LocalDate born, String phone) {
+    public Employer(String tabno, String name, String post, double salary, LocalDate born, String phone, Depart department) {
         this.children = new ArrayList<>();
         this.tabno = tabno;
         this.name = name;
@@ -27,6 +27,7 @@ public class Employer {
         this.salary = salary;
         this.born = born;
         this.phone = phone;
+        this.department = new Depart();
     }
 
     public Employer() {
@@ -57,7 +58,7 @@ public class Employer {
         return name;
     }
 
-    public float getSalary() {
+    public double getSalary() {
         return salary;
     }
 
@@ -85,7 +86,7 @@ public class Employer {
         this.post = post;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
