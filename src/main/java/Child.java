@@ -19,6 +19,14 @@ public class Child {
     public Child() {
     }
 
+    public Child(String name, String tabno, char sex, LocalDate born, Employer parent) {
+        this.name = name;
+        this.tabno = tabno;
+        this.sex = sex;
+        this.born = born;
+        this.parent = parent;
+    }
+
     public String getName() {
         return name;
     }
@@ -49,6 +57,14 @@ public class Child {
 
     public void setBorn(LocalDate born) {
         this.born = born;
+    }
+
+    public Employer getParent() {
+        return parent;
+    }
+
+    public void setParent(Employer parent) {
+        this.parent = parent;
     }
 
     public static String getTableName() {

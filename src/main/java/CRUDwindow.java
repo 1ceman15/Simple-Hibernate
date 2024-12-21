@@ -14,14 +14,12 @@ public class CRUDwindow extends JFrame implements ActionListener {
     public CRUDwindow(DataBaseDAO dao) {
         this.dao = dao;
         // Заголовок окна
-        setTitle("CRUD Operations Window");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setTitle("CRUD Operations Window");
 
         // Размеры окна
-        setSize(400, 250);
-        setResizable(false); // Отключаем изменение размеров
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Центрирование окна
+        this.setSize(400, 250);
+        this.setResizable(false); // Отключаем изменение размеров
+        this.setLocationRelativeTo(null); // Центрирование окна
 
         // Создание надписи
         JLabel titleLabel = new JLabel("Выберите операцию", SwingConstants.CENTER);
@@ -53,11 +51,12 @@ public class CRUDwindow extends JFrame implements ActionListener {
         buttonPanel.add(deleteButton);
 
         // Добавление компонентов в окно
-        setLayout(new BorderLayout());
-        add(titleLabel, BorderLayout.NORTH); // Надпись сверху
-        add(buttonPanel, BorderLayout.CENTER); // Панель с кнопками
+        this.setLayout(new BorderLayout());
+        this.add(titleLabel, BorderLayout.NORTH); // Надпись сверху
+        this.add(buttonPanel, BorderLayout.CENTER); // Панель с кнопками
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        setVisible(true);
+        this.setVisible(true);
     }
 
     // Метод для стилизации кнопок
@@ -75,7 +74,7 @@ public class CRUDwindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == readButton) {
-
+            System.out.println(dao.getById(HibernateUtil.openSession(), "110"));
         }
     }
 

@@ -1,5 +1,4 @@
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,12 @@ public class Depart {
     List<Employer> employers;
 
     public Depart() {
+        this.employers = new ArrayList<>();
+    }
+
+    public Depart(int id, String name) {
+        this.id = id;
+        this.name = name;
         this.employers = new ArrayList<>();
     }
 

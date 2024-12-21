@@ -1,6 +1,5 @@
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -20,16 +19,39 @@ public abstract class DataBaseDAO<T, ID> {
     }
 
     public T create(Session session, T entity) {
-        session.saveOrUpdate(entity);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(entity);
+            tx.commit();
+        }catch (Exception e) {
+            if (tx != null) tx.rollback();
+            Errors.errorsFunction(e);
+        }
         return entity;
     }
 
     public T update(Session session, T entity) {
-        session.merge(entity);
+        Transaction tx = null;
+        try {
+            session.merge(entity);
+        }catch (Exception e) {
+            if (tx != null) tx.rollback();
+            Errors.errorsFunction(e);
+        }
         return entity;
     }
 
-    public void deletebyId(Session session, T entity) {
-        session.delete(entity);
+    public void deleteById(Session session, T id) {
+        Transaction tx = null;
+        try {
+            Object entity = session.get(clazz, id);
+            session.delete(entity);
+            tx.commit();
+        }catch (Exception e) {
+            if (tx != null) tx.rollback();
+            Errors.errorsFunction(e);
+        }
     }
+
 }
