@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-public class ChildInput extends JFrame implements ActionListener {
+public class ChildInput extends JDialog implements ActionListener {
     private Child child;
     private JTextField nameField = new JTextField();
     private JTextField tabnoField = new JTextField();
@@ -12,8 +12,8 @@ public class ChildInput extends JFrame implements ActionListener {
     private JTextField bornField = new JTextField();
     private JButton submitButton = new JButton("Отправить");
 
-    public ChildInput() {
-        this.setTitle("Ввод данных ребенка");
+    public ChildInput(Frame owner) {
+        super(owner,"Ввод данных ребенка",true);
         this.setSize(420, 300);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null); // Центрируем окно

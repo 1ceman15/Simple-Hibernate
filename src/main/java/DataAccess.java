@@ -3,10 +3,10 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public abstract class DataBaseDAO<T, ID> {
+public abstract class DataAccess<T, ID> {
     private Class<T> clazz;
 
-    public DataBaseDAO(Class<T> clazz) {
+    public DataAccess(Class<T> clazz) {
         this.clazz = clazz;
     }
 
@@ -34,7 +34,9 @@ public abstract class DataBaseDAO<T, ID> {
     public T update(Session session, T entity) {
         Transaction tx = null;
         try {
+            tx = session.beginTransaction();
             session.merge(entity);
+            tx.commit();
         }catch (Exception e) {
             if (tx != null) tx.rollback();
             Errors.errorsFunction(e);
@@ -45,6 +47,7 @@ public abstract class DataBaseDAO<T, ID> {
     public void deleteById(Session session, T id) {
         Transaction tx = null;
         try {
+            tx = session.beginTransaction();
             Object entity = session.get(clazz, id);
             session.delete(entity);
             tx.commit();

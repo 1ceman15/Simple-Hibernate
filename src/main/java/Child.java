@@ -12,7 +12,7 @@ public class Child {
     String tabno;
     char sex;
     LocalDate born;
-    @ManyToOne
+    @ManyToOne(cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "tabno")
     Employer parent;
 

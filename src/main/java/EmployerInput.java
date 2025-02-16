@@ -3,8 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class EmployerInput extends JFrame implements ActionListener {
+public class EmployerInput extends JDialog implements ActionListener {
     private Employer emp;
     private JTextField tabnoField = new JTextField();
     private JTextField nameField = new JTextField();
@@ -15,11 +16,11 @@ public class EmployerInput extends JFrame implements ActionListener {
     private JTextField departmentField = new JTextField();
     private JButton submitButton = new JButton("Отправить");
 
-    public EmployerInput() {
-        this.setTitle("Ввод данных сотрудника");
+    public EmployerInput(Frame owner) {
+        super(owner, "Ввод данных сотрудника", true); // true делает окно модальным
         this.setSize(420, 400);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null); // Центрируем окно
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(owner); // Центрируем окно относительно родительского окна
         this.setLayout(new BorderLayout());
 
         // Основная панель
@@ -65,9 +66,10 @@ public class EmployerInput extends JFrame implements ActionListener {
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);
+
+        submitButton.addActionListener(this);
         setVisible(true);
     }
-
 
     private void toEmployer() {
         // Извлекаем значения из полей формы
@@ -75,16 +77,20 @@ public class EmployerInput extends JFrame implements ActionListener {
         String name = nameField.getText();
         String post = postField.getText();
         double salary = Double.parseDouble(salaryField.getText()); // Преобразуем строку в число
-        LocalDate born = LocalDate.parse(bornField.getText()); // Здесь может быть преобразование в LocalDate, если нужно
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate born = LocalDate.parse(bornField.getText(),formatter); // Здесь может быть преобразование в LocalDate, если нужно
         String phone = phoneField.getText();
-        int  departId = Integer.parseInt(departmentField.getText());
-        Depart department = new Depart();
-        department.setId(departId);
+        int departId = Integer.parseInt(departmentField.getText());
+
+        DataAccess dao = new DepartDAO();
+
+        Depart department = (Depart) dao.getById(HibernateUtil.openSession(),departId);
+        if(department == null){
+            throw new IllegalStateException("Такого номера депортамента нет");
+        }
 
         // Создаем объект Employer, передавая значения
         emp = new Employer(tabno, name, post, salary, born, phone, department);
-
-        // Можно добавить дополнительные действия, например, вывод в консоль или сохранение в базу данных
     }
 
     public Employer getEmployer() {
@@ -93,12 +99,15 @@ public class EmployerInput extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == submitButton) {
+        if (e.getSource() == submitButton) {
             toEmployer();
-            this.dispose();
+            this.dispose(); // Закрываем окно после отправки данных
         }
     }
 
-
-
+    // Метод для использования модального окна и получения данных от пользователя
+    public static Employer getEmployerFromUser(JFrame parent) {
+        EmployerInput inputDialog = new EmployerInput(parent); // Создаем модальное окно
+        return inputDialog.getEmployer(); // Получаем введенные данные
+    }
 }

@@ -3,13 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class IdInput extends JFrame implements ActionListener {
+public class IdInput extends JDialog implements ActionListener {
     String id;
     private JTextField idField = new JTextField();
     private JButton submitButton = new JButton("Отправить");
 
-    public IdInput() {
-        this.setTitle("Ввод ID");
+    public IdInput(Frame owner) {
+        super(owner, "Ввод id", true);
         this.setSize(320, 180); // Уменьшаем размер окна
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null); // Центрируем окно
@@ -37,6 +37,7 @@ public class IdInput extends JFrame implements ActionListener {
         submitButton.setBackground(new Color(0xFDFDFD)); // Стандартный цвет фона
         submitButton.setForeground(Color.BLACK); // Черный цвет текста
         submitButton.setFont(new Font("Segoe UI", Font.PLAIN, 14)); // Уменьшаем шрифт кнопки
+        submitButton.addActionListener(this);
 
         // Добавляем панель с формой в основную панель
         mainPanel.add(formPanel, BorderLayout.CENTER);
@@ -45,11 +46,16 @@ public class IdInput extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public String getId() {
+        return id;
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == submitButton) {
             this.id = idField.getText();
+            this.dispose();
         }
     }
 }

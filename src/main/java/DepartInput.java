@@ -3,14 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepartInput extends JFrame implements ActionListener {
+public class DepartInput extends JDialog implements ActionListener {
     private Depart depart = new Depart();
     private JTextField idField = new JTextField();
     private JTextField nameField = new JTextField();
     private JButton submitButton = new JButton("Отправить");
 
-    public DepartInput() {
-        this.setTitle("Ввод данных департамента");
+    public DepartInput(Frame owner) {
+        super(owner,"Ввод данных департамента",true);
         this.setSize(420, 300);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null); // Центрируем окно

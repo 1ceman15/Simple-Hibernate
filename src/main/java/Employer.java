@@ -12,7 +12,7 @@ public class Employer {
     double salary;
     LocalDate born;
     String phone;
-    @ManyToOne()
+    @ManyToOne(cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "depno")
     Depart department;
     @OneToMany(mappedBy = "parent")
@@ -27,7 +27,7 @@ public class Employer {
         this.salary = salary;
         this.born = born;
         this.phone = phone;
-        this.department = new Depart();
+        this.department = department;
     }
 
     public Employer() {
