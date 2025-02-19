@@ -1,6 +1,9 @@
+import jakarta.persistence.Embeddable;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class ChildPK implements Serializable {
     String name;
     String tabno;

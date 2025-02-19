@@ -1,3 +1,5 @@
+import org.hibernate.Session;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -77,43 +79,75 @@ public class CRUDwindow extends JFrame implements ActionListener {
 
         if(e.getSource() == deleteButton) {
             if(dao instanceof ChildDAO) {
-                //TODO ОКНО ДЛЯ КЛЮЧА Child
+                ChildPkInput window = new ChildPkInput(this);
+                ChildPK pk = window.getPk();
+                Session session = HibernateUtil.openSession();
+                dao.deleteById(session, pk);
+                session.close();
             }else if(dao instanceof EmployerDAO) {
                 IdInput window = new IdInput(this);
                 String id =  window.getId();
-                dao.deleteById(HibernateUtil.openSession(),id);
+                Session session = HibernateUtil.openSession();
+                dao.deleteById(session,id);
+                session.close();
             }else {
                 IdInput window = new IdInput(this);
+                int id = Integer.parseInt(window.getId());
+                Session session = HibernateUtil.openSession();
+                dao.deleteById(session,id);
+                session.close();
             }
         }
 
         if(e.getSource() == insertButton || e.getSource() == updateButton){
             if(dao instanceof ChildDAO) {
                 ChildInput window = new ChildInput(this);
+                Child child = window.getChild();
+                Session session = HibernateUtil.openSession();
+                dao.create(session,child);
+                session.close();
             } else if (dao instanceof EmployerDAO) {
                 EmployerInput window = new EmployerInput(this);
                 Employer emp = window.getEmployer();
-                dao.create(HibernateUtil.openSession(), emp);
+                Session session = HibernateUtil.openSession();
+                dao.create(session, emp);
+                session.close();
             } else{
                 DepartInput window = new DepartInput(this);
+                Depart department = window.getDepart();
+                Session session = HibernateUtil.openSession();
+                dao.create(session, department);
+                session.close();
             }
 
         }
 
         if(e.getSource() == readButton) {
             if(dao instanceof ChildDAO) {
-                //TODO ОКНО ДЛЯ КЛЮЧА Child
+                ChildPkInput window = new ChildPkInput(this);
+                ChildPK pk = window.getPk();
+                Session session = HibernateUtil.openSession();
+                Child child = (Child) dao.getById(session, pk);
+                if(child != null) {
+                    new ChildDisplay(child);
+                }else Errors.errorsFunction(new Exception("Такого ребенка нет"));
+
+
             }else if(dao instanceof EmployerDAO) {
                 IdInput window = new IdInput(this);
                 String id = window.getId();
-                Employer employer = (Employer) dao.getById(HibernateUtil.openSession(), id);
+                Session session = HibernateUtil.openSession();
+                Employer employer = (Employer) dao.getById(session, id);
+                session.close();
                 if(employer != null)
                     new EmployerDisplay(employer);
                 else Errors.errorsFunction(new Exception("Такого сотрудника нет"));
             }else {
                 IdInput window = new IdInput(this);
                 int id = Integer.parseInt(window.getId());
-                Depart department = (Depart) dao.getById(HibernateUtil.openSession(), id);
+                Session session = HibernateUtil.openSession();
+                Depart department = (Depart) dao.getById(session, id);
+                session.close();
                 if(department != null)
                     new DepartDisplay(department);
                 else Errors.errorsFunction(new Exception("Такого департамента не существует"));

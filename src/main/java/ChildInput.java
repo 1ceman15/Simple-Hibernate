@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ChildInput extends JDialog implements ActionListener {
     private Child child;
@@ -13,7 +14,7 @@ public class ChildInput extends JDialog implements ActionListener {
     private JButton submitButton = new JButton("Отправить");
 
     public ChildInput(Frame owner) {
-        super(owner,"Ввод данных ребенка",true);
+        super(owner, "Ввод данных ребенка", true);
         this.setSize(420, 300);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null); // Центрируем окно
@@ -48,11 +49,13 @@ public class ChildInput extends JDialog implements ActionListener {
         submitButton.setBackground(new Color(0xFDFDFD)); // Стандартный цвет фона
         submitButton.setForeground(Color.BLACK); // Черный цвет текста
         submitButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        submitButton.addActionListener(this);
 
         // Добавляем панель с формой в основную панель
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);
+
         setVisible(true);
     }
 
@@ -60,17 +63,13 @@ public class ChildInput extends JDialog implements ActionListener {
         // Извлекаем значения из полей формы
         String name = nameField.getText();
         String tabno = tabnoField.getText();
-        char sex = sexField.getText().toUpperCase().charAt(0); // Преобразуем в верхний регистр
-        String bornStr = bornField.getText(); // Получаем строку даты
+        char sex = sexField.getText().toLowerCase().charAt(0); // Преобразуем в верхний регистр
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate born = LocalDate.parse(bornField.getText(), formatter); // Преобразуем строку в LocalDate
 
-        // Преобразование строки в LocalDate
-        LocalDate born = null;
-            born = LocalDate.parse(bornStr); // Преобразуем строку в LocalDate
 
-        // Создаем объект Child без родителя
         this.child = new Child(name, tabno, sex, born);
 
-        // Можно добавить дополнительные действия, например, вывод в консоль или сохранение в базу данных
     }
 
     public Child getChild() {
@@ -80,8 +79,9 @@ public class ChildInput extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == submitButton) {
+        if (e.getSource() == submitButton) {
             toChild();
+            this.dispose();
         }
     }
 }

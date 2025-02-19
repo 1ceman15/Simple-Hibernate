@@ -13,7 +13,7 @@ public class Child {
     char sex;
     LocalDate born;
     @ManyToOne(cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "tabno")
+    @JoinColumn(name =  "tabno", insertable = false, updatable = false) // Внешний ключ на Employer
     Employer parent;
 
     public Child() {

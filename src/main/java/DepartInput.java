@@ -44,6 +44,7 @@ public class DepartInput extends JDialog implements ActionListener {
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);
+        submitButton.addActionListener(this);
         setVisible(true);
     }
 
@@ -61,6 +62,7 @@ public class DepartInput extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == submitButton) {
             toDepart();
+            this.dispose();
         }
     }
 

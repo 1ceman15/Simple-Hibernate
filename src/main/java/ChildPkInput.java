@@ -3,14 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ChildPkInput extends JFrame implements ActionListener {
+public class ChildPkInput extends JDialog implements ActionListener {
     private ChildPK pk;
     private JTextField nameField = new JTextField();
     private JTextField tabnoField = new JTextField();
     private JButton submitButton = new JButton("Отправить");
 
-    public ChildPkInput() {
-        this.setTitle("Ввод данных ребенка");
+    public ChildPkInput(Frame owner) {
+        super(owner,"Ввод данных ребенка",true);
         this.setSize(320, 230); // Уменьшаем размер окна
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null); // Центрируем окно
@@ -42,7 +42,7 @@ public class ChildPkInput extends JFrame implements ActionListener {
         submitButton.setBackground(new Color(0xFDFDFD)); // Стандартный цвет фона
         submitButton.setForeground(Color.BLACK); // Черный цвет текста
         submitButton.setFont(new Font("Segoe UI", Font.PLAIN, 14)); // Уменьшаем шрифт кнопки
-
+        submitButton.addActionListener(this);
         // Добавляем панель с формой в основную панель
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
@@ -54,11 +54,15 @@ public class ChildPkInput extends JFrame implements ActionListener {
         this.pk = new ChildPK(nameField.getText(), tabnoField.getText());
     }
 
+    public ChildPK getPk() {
+        return pk;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == submitButton){
             toChildPK();
+            this.dispose();
         }
     }
 }

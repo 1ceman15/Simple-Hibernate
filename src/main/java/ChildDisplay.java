@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 
 public class ChildDisplay extends JFrame {
     private JTextField nameField = new JTextField();
